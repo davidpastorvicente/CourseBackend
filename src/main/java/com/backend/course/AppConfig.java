@@ -29,7 +29,7 @@ public class AppConfig {
     }
 
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
+    public SqlSessionFactoryBean sqlSessionFactory() {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         return sessionFactory;

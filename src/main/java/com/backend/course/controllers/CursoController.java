@@ -2,7 +2,6 @@ package com.backend.course.controllers;
 
 import com.backend.course.mappers.CursoMapper;
 import com.backend.course.models.Curso;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
