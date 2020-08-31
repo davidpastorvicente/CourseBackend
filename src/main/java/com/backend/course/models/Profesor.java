@@ -29,6 +29,10 @@ public class Profesor {
         this.apellido = apellido;
     }
 
+    public String getNombreCompleto() {
+        return this.nombre + " " + this.apellido;
+    }
+
     @Override
     public String toString() {
         return "Profesor{" +

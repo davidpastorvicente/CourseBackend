@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/cursos")
 public class CursoController {
-    private CursoMapper cursoMapper;
+    private final CursoMapper cursoMapper;
 
     public CursoController(CursoMapper cursoMapper) {
         this.cursoMapper = cursoMapper;
@@ -21,7 +21,7 @@ public class CursoController {
         return cursoMapper.findAll();
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public void addCurso(@RequestBody Curso curso) {
         cursoMapper.addCurso(curso);
     }

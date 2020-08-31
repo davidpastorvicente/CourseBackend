@@ -6,19 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/profesores")
 public class ProfesorController {
-    private ProfesorMapper profesorMapper;
+    private final ProfesorMapper profesorMapper;
 
     public ProfesorController(ProfesorMapper profesorMapper) {
         this.profesorMapper = profesorMapper;
     }
 
     @GetMapping
-    public List<Profesor> getAll() {
-        return profesorMapper.findAll();
+    public Map<Integer, String> getAll() {
+        return profesorMapper.findAll().stream()
+                .collect(Collectors.toMap(Profesor::getId, Profesor::getNombreCompleto));
     }
 }
