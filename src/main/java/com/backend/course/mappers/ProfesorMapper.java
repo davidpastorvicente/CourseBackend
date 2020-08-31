@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ProfesorMapper {
 
-    @Select("select * from \"Profesores\"")
+    @Select("SELECT * FROM \"Profesores\"")
     List<Profesor> findAll();
 }
