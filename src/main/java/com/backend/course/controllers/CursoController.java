@@ -18,11 +18,15 @@ public class CursoController {
 
     @GetMapping
     public List<Curso> getAll() {
-        return cursoMapper.findAll();
+        return cursoMapper.getAll();
     }
 
     @PostMapping
-    public void addCurso(@RequestBody Curso curso) {
+    @ResponseBody
+    public Curso addCurso(@RequestBody Curso curso) {
         cursoMapper.addCurso(curso);
+        List<Curso> listCursos = cursoMapper.getAll();
+        curso.setId(listCursos.get(listCursos.size() - 1).getId());
+        return curso;
     }
 }
