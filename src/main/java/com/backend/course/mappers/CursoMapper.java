@@ -19,5 +19,5 @@ public interface CursoMapper {
     void addCurso(Curso curso);
 
     @Delete("DELETE FROM \"Cursos\" WHERE \"id\" = #{id}")
-    void deleteCurso(Curso curso);
+    void deleteCurso(int id);
 }

@@ -29,4 +29,9 @@ public class CursoController {
         curso.setId(listCursos.get(listCursos.size() - 1).getId());
         return curso;
     }
+
+    @DeleteMapping("del/{cursoId}")
+    public void deleteCurso(@PathVariable int cursoId) {
+        cursoMapper.deleteCurso(cursoId);
+    }
 }
