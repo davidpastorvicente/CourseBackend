@@ -7,6 +7,7 @@ public class Curso {
     private int profesor;
     private String nivel;
     private boolean activo;
+    private byte[] temario;
 
     public int getId() {
         return id;
@@ -54,6 +55,14 @@ public class Curso {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public byte[] getTemario() {
+        return temario;
+    }
+
+    public void setTemario(byte[] temario) {
+        this.temario = temario;
     }
 
     @Override
