@@ -4,14 +4,13 @@ import com.backend.course.controllers.CursoController;
 import com.backend.course.models.Curso;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.annotation.Resource;
 import java.util.List;
 
 @SpringBootTest
 class CourseManagerApplicationTests {
-    @Resource
+    @Autowired
     CursoController cursoController;
 
     @Test
@@ -30,6 +29,7 @@ class CourseManagerApplicationTests {
 
         Assertions.assertEquals(prevList.size() + 1, newList.size());
         Assertions.assertEquals("Prueba", newList.get(newList.size() - 1).getTitulo());
+        Assertions.assertTrue(newList.stream().anyMatch(c -> c.getTitulo().equals("Prueba")));
 
         cursoController.deleteCurso(curso.getId());
         newList = cursoController.getAll();

@@ -24,11 +24,8 @@ public class CursoController {
     }
 
     @PostMapping
-    @ResponseBody
     public Curso addCurso(@RequestBody Curso curso) {
         cursoMapper.addCurso(curso);
-        List<Curso> listCursos = cursoMapper.getAll();
-        curso.setId(listCursos.get(listCursos.size() - 1).getId());
         return curso;
     }
 
@@ -37,7 +34,7 @@ public class CursoController {
         cursoMapper.addTemario(file.getBytes(), id);
     }
 
-    @DeleteMapping("del/{cursoId}")
+    @DeleteMapping("/{cursoId}")
     public void deleteCurso(@PathVariable int cursoId) {
         cursoMapper.deleteCurso(cursoId);
     }
