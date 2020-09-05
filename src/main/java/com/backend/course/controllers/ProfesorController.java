@@ -1,28 +1,33 @@
 package com.backend.course.controllers;
 
-import com.backend.course.mappers.ProfesorMapper;
 import com.backend.course.models.Profesor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.backend.course.repositories.ProfesorRepository;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/profesores")
 public class ProfesorController {
-    private final ProfesorMapper profesorMapper;
+    private final ProfesorRepository profeRepo;
 
-    public ProfesorController(ProfesorMapper profesorMapper) {
-        this.profesorMapper = profesorMapper;
+    public ProfesorController(ProfesorRepository profeRepo) {
+        this.profeRepo = profeRepo;
     }
 
     @GetMapping
-    public Map<Integer, String> getAll() {
-        return profesorMapper.findAll().stream()
-                .collect(Collectors.toMap(Profesor::getId, Profesor::getNombreCompleto));
+    public List<Profesor> getProfesores() {
+        return profeRepo.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Profesor getProfesor(@PathVariable long id) {
+        return profeRepo.findById(id).orElseThrow();
+    }
+
+    @PostMapping
+    public long postProfesor(@RequestBody Profesor profe) {
+        return profeRepo.save(profe).getId();
     }
 }

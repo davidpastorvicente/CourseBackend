@@ -1,41 +1,46 @@
 package com.backend.course.controllers;
 
-import com.backend.course.mappers.CursoMapper;
 import com.backend.course.models.Curso;
+import com.backend.course.repositories.CursoRepository;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/cursos")
 public class CursoController {
-    private final CursoMapper cursoMapper;
+    private final CursoRepository cursoRepo;
 
-    public CursoController(CursoMapper cursoMapper) {
-        this.cursoMapper = cursoMapper;
+    public CursoController(CursoRepository cursoRepo) {
+        this.cursoRepo = cursoRepo;
     }
 
     @GetMapping
-    public List<Curso> getAll() {
-        return cursoMapper.getAll();
+    public List<Curso> getCursos() {
+        return cursoRepo.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Curso getCurso(@PathVariable long id) {
+        return cursoRepo.findById(id).orElseThrow();
     }
 
     @PostMapping
-    public Curso addCurso(@RequestBody Curso curso) {
-        cursoMapper.addCurso(curso);
-        return curso;
+    public long postCurso(@RequestBody Curso curso) {
+        return cursoRepo.save(curso).getId();
     }
 
-    @PutMapping
-    public void addTemario(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) throws IOException {
-        cursoMapper.addTemario(file.getBytes(), id);
+    @PutMapping("/{id}")
+    public void putCurso(@PathVariable Long id, @RequestBody Curso curso) {
+        if(cursoRepo.existsById(id)) {
+            curso.setId(id);
+            cursoRepo.save(curso);
+        }
     }
 
-    @DeleteMapping("/{cursoId}")
-    public void deleteCurso(@PathVariable int cursoId) {
-        cursoMapper.deleteCurso(cursoId);
+    @DeleteMapping("/{id}")
+    public void deleteCurso(@PathVariable long id) {
+        cursoRepo.deleteById(id);
     }
 }
