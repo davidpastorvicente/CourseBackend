@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 
 
 @RestController
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/temarios")
 public class TemarioController {
     public final TemarioStorage temarioStorage;
