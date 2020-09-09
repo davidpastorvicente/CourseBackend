@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
+@CrossOrigin("http://localhost:8080")
 @RequestMapping("/profesores")
 public class ProfesorController {
     private final ProfesorRepository profeRepo;
