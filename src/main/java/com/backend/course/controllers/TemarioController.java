@@ -1,16 +1,14 @@
 package com.backend.course.controllers;
 
-import com.backend.course.models.Temario;
 import com.backend.course.services.TemarioStorage;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -18,29 +16,23 @@ import java.util.stream.Collectors;
 @RequestMapping("/temarios")
 public class TemarioController {
     public final TemarioStorage temarioStorage;
+    public final CursoController cursoController;
 
-    public TemarioController(TemarioStorage temarioStorage) {
+    public TemarioController(TemarioStorage temarioStorage, CursoController cursoController) {
         this.temarioStorage = temarioStorage;
-    }
-
-    @GetMapping
-    public List<Temario> getTemarios() throws IOException {
-        return temarioStorage.loadAll().map(path -> {
-            String fileName = path.getFileName().toString();
-            String url = MvcUriComponentsBuilder.fromMethodName(TemarioController.class,
-                    "getTemario", path.getFileName().toString()).build().toString();
-
-            return new Temario(fileName, url);
-        }).collect(Collectors.toList());
+        this.cursoController = cursoController;
     }
 
     @GetMapping("/{fileName:.+}")
-    public Resource getTemario(@PathVariable String fileName) throws MalformedURLException {
-        return temarioStorage.load(fileName);
+    public ResponseEntity<Resource> getTemario(@PathVariable String fileName) throws MalformedURLException {
+        Resource file = temarioStorage.load(fileName.replace("%20", " "));
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + fileName + "\"").body(file);
     }
 
     @PostMapping
-    public void postTemario(@RequestParam("temario") MultipartFile temario) throws IOException {
+    public void postTemario(@RequestParam("id") Long id, @RequestParam("temario") MultipartFile temario) throws IOException {
         temarioStorage.save(temario);
+        cursoController.addTemario(id, temario.getOriginalFilename());
     }
 }

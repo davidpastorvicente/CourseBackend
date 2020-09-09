@@ -15,6 +15,7 @@ public class Curso {
     private int horas;
     private Nivel nivel;
     private boolean activo;
+    private String temario;
 
     @ManyToOne
     private Profesor profesor;
@@ -27,6 +28,10 @@ public class Curso {
         this.id = id;
     }
 
+    public void setTemario(String temario) {
+        this.temario = temario;
+    }
+
     @Override
     public String toString() {
         return "Curso {" +
@@ -36,6 +41,7 @@ public class Curso {
                 ", profesor = " + profesor +
                 ", nivel = " + nivel +
                 ", activo = " + activo +
+                ", temario = " + temario +
                 '}';
     }
 }

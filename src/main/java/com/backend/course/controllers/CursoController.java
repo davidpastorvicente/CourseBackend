@@ -43,4 +43,10 @@ public class CursoController {
     public void deleteCurso(@PathVariable long id) {
         cursoRepo.deleteById(id);
     }
+
+    public void addTemario(Long id, String urlTemario) {
+        Curso curso = cursoRepo.findById(id).orElseThrow();
+        curso.setTemario(urlTemario);
+        cursoRepo.save(curso);
+    }
 }
