@@ -5,6 +5,7 @@ import com.backend.course.repositories.CursoRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
@@ -22,7 +23,7 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public Curso getCurso(@PathVariable long id) {
+    public Curso getCurso(@PathVariable long id) throws NoSuchElementException {
         return cursoRepo.findById(id).orElseThrow();
     }
 
